@@ -1,1 +1,1 @@
-# Intelligent systems (Artificial intelligence) - Pathfinding using genetic algoritham in Unity
+# Intelligent systems (Artificial intelligence) - Pathfinding using genetic algorithm in Unity
