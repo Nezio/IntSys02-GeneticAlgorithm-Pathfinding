@@ -116,7 +116,9 @@ public class GameManager : MonoBehaviour
             GameObject bestIndividual = population[bestIndividualIndex];
             population.Clear();
             population.Add(bestIndividual);
-            
+
+            //Time.timeScale = 1;     // revert timescale to normal
+
             // display it in simulation
             StartSimulation();
 

@@ -30,7 +30,8 @@ public class Individual : MonoBehaviour
 
         for (int i = 0; i < maxTurns; i++)
         {
-            turns.Add(turnAngles[Random.Range(0, turnAngles.Count)]);
+            //turns.Add(turnAngles[Random.Range(0, turnAngles.Count)]);
+            turns.Add(Random.Range(0, 360));
         }
     }
 
@@ -71,12 +72,19 @@ public class Individual : MonoBehaviour
         yield return 0;
     }
 
-    // ignore collision with other individuals
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // ignore collision with other individuals
         if (collision.gameObject.tag == "Individual")
         {
             Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), collision.collider);
+        }
+
+        // freeze on collision with end point
+        if (collision.gameObject.tag == "endPoint")
+        {
+            currentThrust = 0;
         }
     }
     
@@ -90,5 +98,6 @@ public class Individual : MonoBehaviour
     {
         return fitness;
     }
+
 
 }

@@ -348,7 +348,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IndividualPrefab: {fileID: 1657984089166734, guid: 0b6ccf693af50014caddcb813c0cb05a,
     type: 2}
-  iterations: 5
+  iterations: 10
   populationSize: 50
   mutatioProb: 0.05
   timeScale: 5
@@ -374,6 +374,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1262003610}
   - component: {fileID: 1262003609}
+  - component: {fileID: 1262003611}
   m_Layer: 0
   m_Name: EndPoint
   m_TagString: endPoint
@@ -440,6 +441,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+--- !u!58 &1262003611
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1262003608}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5000001
 --- !u!4 &1369107262 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4784178369001162, guid: 23776745ea9af9b45bdd6c19d50c4f67,
