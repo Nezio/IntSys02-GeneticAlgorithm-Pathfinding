@@ -105,7 +105,7 @@ MonoBehaviour:
   thrust: 3
   maxSpeed: 3
   stepLength: 1
-  maxTurns: 10
+  maxTurns: 20
   isDone: 0
   normalizedFitness: 0
   turns: []

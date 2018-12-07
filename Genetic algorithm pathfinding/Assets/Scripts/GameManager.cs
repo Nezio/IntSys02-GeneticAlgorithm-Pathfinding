@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public int iterations;
     public int populationSize;
     public float mutatioProb;
+    public float timeScale;
 
 
     private List<GameObject> population = new List<GameObject>();
@@ -15,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = timeScale;
+
         // generate initial population
         spawnPoint = GameObject.FindGameObjectWithTag("spawnPoint").transform;
         for (int i = 0; i < populationSize; i++)
@@ -31,7 +34,7 @@ public class GameManager : MonoBehaviour
 
     private void StartSimulation()
     {
-        for (int i = 0; i < populationSize; i++)
+        for (int i = 0; i < population.Count; i++)
         {
             StartCoroutine(population[i].GetComponent<Individual>().RunTimer());
         }
@@ -41,7 +44,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator WaitForSimulation()
     { // waiting for simulation to finish
         int numberDone = 0;     // how many individuals finished their run
-        while (numberDone < populationSize)
+        while (numberDone < population.Count)
         {
             numberDone = 0;
             foreach (GameObject individual in population)
@@ -63,51 +66,67 @@ public class GameManager : MonoBehaviour
     private void RunGA()
     {
         NormalizeFitness();
-
-        List<GameObject> newPopulation = GeneticAlgorithm(population);
-
-        // debug
-        /*Debug.Log(newPopulation[0].GetComponent<Individual>().turns[0]);
-        for(int i = 0; i < population.Count; i++)
-        {
-            Individual ind = population[i].GetComponent<Individual>();
-            Individual newInd = newPopulation[i].GetComponent<Individual>();
-            string oldTurns = "";
-            string newTurns = "";
-            foreach (float f in ind.turns)
-            {
-                oldTurns += f.ToString() + " ";
-            }
-            foreach (float f in newInd.turns)
-            {
-                newTurns += f.ToString() + " ";
-            }
-            Debug.Log("old_" + i + " : " + oldTurns);
-            Debug.Log("new_" + i + " : " + newTurns);
-        }*/
-
-        DestroyOldPopulation(population);
-        population = newPopulation;
-
-        // restart sim if needed
+        
         iterations--;
         if (iterations > 0)
-        {
+        { // run GA and start simulation with new generation
+            List<GameObject> newPopulation = GeneticAlgorithm(population);
+
+            // debug
+            /*Debug.Log(newPopulation[0].GetComponent<Individual>().turns[0]);
+            for(int i = 0; i < population.Count; i++)
+            {
+                Individual ind = population[i].GetComponent<Individual>();
+                Individual newInd = newPopulation[i].GetComponent<Individual>();
+                string oldTurns = "";   string newTurns = "";
+                foreach (float f in ind.turns)
+                    oldTurns += f.ToString() + " ";
+                foreach (float f in newInd.turns)
+                    newTurns += f.ToString() + " ";
+                Debug.Log("old_" + i + " : " + oldTurns);
+                Debug.Log("new_" + i + " : " + newTurns);
+            }*/
+
+            DestroyOldPopulation(population);
+            population = newPopulation;
+
             StartSimulation();
 
             StartCoroutine(WaitForSimulation());
         }
         else
-        {
-            // display solution
+        { // display solution     
+            // find best solution (individual)
+            int bestIndividualIndex = 0;
+            for(int i = 0; i < population.Count; i++)
+            {
+                float tmpFit = population[i].GetComponent<Individual>().normalizedFitness;
+                if (population[i].GetComponent<Individual>().normalizedFitness > population[bestIndividualIndex].GetComponent<Individual>().normalizedFitness)
+                    bestIndividualIndex = i;
+            }
+
+            // move population to spawn
+            foreach (GameObject individual in population)
+            {
+                individual.transform.position = spawnPoint.position;
+                individual.transform.rotation = spawnPoint.rotation;
+                individual.GetComponent<Individual>().isDone = false;
+            }
+
+            GameObject bestIndividual = population[bestIndividualIndex];
+            population.Clear();
+            population.Add(bestIndividual);
+            
+            // display it in simulation
+            StartSimulation();
 
         }
     }
     
     private void DestroyOldPopulation(List<GameObject> oldPopulation)
     {
-        foreach (GameObject g in oldPopulation)
-            Destroy(g);
+        foreach (GameObject individual in oldPopulation)
+            Destroy(individual);
     }
 
     private void RestartSimulation()    // DEPRICATED
