@@ -1,1 +1,1 @@
-# IntSys02-GeneticAlgoritham-Pathfinding
+# Intelligent systems (Artificial intelligence) - Pathfinding using genetic algoritham in Unity
