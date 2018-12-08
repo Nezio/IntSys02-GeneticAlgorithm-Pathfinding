@@ -20,6 +20,7 @@ public class Individual : MonoBehaviour
 
     private float currentThrust = 0;
     private float fitness;
+    private float timeToFinish = 0;
 
     private Rigidbody2D rb;
 
@@ -28,11 +29,20 @@ public class Individual : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         turnAngles.AddRange(new float[] { 0, 45, 90, 135, 180, 225, 270, 315 });
 
+        // sharp turns
         for (int i = 0; i < maxTurns; i++)
         {
             //turns.Add(turnAngles[Random.Range(0, turnAngles.Count)]);
             turns.Add(Random.Range(0, 360));
         }
+        
+        // smooth turns
+        //turns.Add(Random.Range(0, 360));
+        //for (int i = 0; i < maxTurns - 1; i++)
+        //{
+        //    //turns.Add(turnAngles[Random.Range(0, turnAngles.Count)]);
+        //    turns.Add(turns[0] + Random.Range(-5, +5));
+        //}
     }
 
     private void Start()
@@ -53,13 +63,19 @@ public class Individual : MonoBehaviour
 
     public IEnumerator RunTimer()
     {
-        yield return new WaitForSeconds(0.5f);
-        currentThrust = thrust;
-        List<float> tmpTurns = new List<float>(turns);
+        yield return new WaitForSeconds(0.25f);         // wait a bit
+        currentThrust = thrust;                         // start moving
+        StartCoroutine(MeasureTime());                  // measure time to finish (used to improve fitness)
+        List<float> tmpTurns = new List<float>(turns);  // copy turns data
         while(tmpTurns.Count > 0)
         {
             rb.MoveRotation(tmpTurns[0]);
             tmpTurns.RemoveAt(0);
+
+            // measure best fitness
+            float newFitness = CalculateFitness();
+            if (newFitness < fitness)
+                fitness = newFitness;
 
             yield return new WaitForSeconds(stepLength);
         }
@@ -67,11 +83,22 @@ public class Individual : MonoBehaviour
         currentThrust = 0;
         isDone = true;
 
-        CalculateFitness();
+        fitness = CalculateFitness();
+        fitness += timeToFinish;        // improve final fitness with time taken to finish
 
         yield return 0;
     }
 
+    private IEnumerator MeasureTime()
+    {
+        while (currentThrust != 0)
+        {
+            timeToFinish += 0.1f;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        yield return 0;
+    }
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -91,10 +118,9 @@ public class Individual : MonoBehaviour
         }
     }
 
-    private void CalculateFitness()
+    private float CalculateFitness()
     {
-        fitness = Vector2.Distance(gameObject.transform.position, GameObject.FindGameObjectWithTag("endPoint").transform.position);
-        //Debug.Log(fitness);
+        return Vector2.Distance(gameObject.transform.position, GameObject.FindGameObjectWithTag("endPoint").transform.position);
     }
 
     public float GetFitness()

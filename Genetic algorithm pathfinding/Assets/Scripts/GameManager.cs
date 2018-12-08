@@ -100,7 +100,6 @@ public class GameManager : MonoBehaviour
             int bestIndividualIndex = 0;
             for(int i = 0; i < population.Count; i++)
             {
-                float tmpFit = population[i].GetComponent<Individual>().normalizedFitness;
                 if (population[i].GetComponent<Individual>().normalizedFitness > population[bestIndividualIndex].GetComponent<Individual>().normalizedFitness)
                     bestIndividualIndex = i;
             }
@@ -162,6 +161,7 @@ public class GameManager : MonoBehaviour
             normalizedFitnessData.Add(1 - ((f - Tools.ListMin(fitnessData)) / (Tools.ListMax(fitnessData) - Tools.ListMin(fitnessData))));
         }
 
+        // debug
         //for(int i = 0; i < fitnessData.Count; i++)
         //{ Debug.Log(fitnessData[i] + " -> " + normalizedFitnessData[i]); }
 
@@ -201,6 +201,32 @@ public class GameManager : MonoBehaviour
             int randomIdx = Random.Range(0, population.Count);
             if (population[randomIdx].GetComponent<Individual>().normalizedFitness >= random)
                 individual = population[randomIdx];
+        }
+
+        return individual;
+    }
+    private GameObject RandomFitIndividualExcept(List<GameObject> population, GameObject exception)
+    {
+        float random = Random.value;
+        GameObject individual = null;
+
+        while (individual == null)
+        {
+            int randomIdx = Random.Range(0, population.Count);
+            if (population[randomIdx].GetComponent<Individual>().normalizedFitness >= random)
+                individual = population[randomIdx];
+            else
+                continue;
+
+            // check against execption
+            bool uniqeIndividual = false;
+            for (int i = 0; i < individual.GetComponent<Individual>().turns.Count; i++)
+            {
+                if (individual.GetComponent<Individual>().turns[i] != exception.GetComponent<Individual>().turns[i])
+                    uniqeIndividual = true;     // if at least one turn doesn't match: indidvidual is uniqe
+            }
+            if (!uniqeIndividual)   // if individual is not uniqe: set null and try again
+                individual = null;
         }
 
         return individual;
