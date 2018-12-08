@@ -80,14 +80,17 @@ public class Individual : MonoBehaviour
         {
             Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), collision.collider);
         }
+    }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
         // freeze on collision with end point
         if (collision.gameObject.tag == "endPoint")
         {
             currentThrust = 0;
         }
     }
-    
+
     private void CalculateFitness()
     {
         fitness = Vector2.Distance(gameObject.transform.position, GameObject.FindGameObjectWithTag("endPoint").transform.position);
