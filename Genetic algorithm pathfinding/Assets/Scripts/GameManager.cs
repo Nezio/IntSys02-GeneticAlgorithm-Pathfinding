@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public GameObject IndividualPrefab;
-    public int iterations;
+    public int generations;
     public int populationSize;
     public float mutatioProb;
     public float timeScale;
@@ -15,6 +16,14 @@ public class GameManager : MonoBehaviour
     private List<GameObject> population = new List<GameObject>();
     private Transform spawnPoint;
     private int genCount = 1;
+    
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("MenuScene");
+        }
+    }
 
     private void Start()
     {
@@ -76,8 +85,8 @@ public class GameManager : MonoBehaviour
     {
         NormalizeFitness();
         
-        iterations--;
-        if (iterations > 0)
+        generations--;
+        if (generations > 0)
         { // run GA and start simulation with new generation
             genCount++;
             UpdateGenCountText();

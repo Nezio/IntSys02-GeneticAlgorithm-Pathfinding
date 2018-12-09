@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\Individual.cs" />
     <Compile Include="Assets\Scripts\Settings.cs" />
     <Compile Include="Assets\Scripts\Tools.cs" />
+    <Compile Include="Assets\Scripts\UIController.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>D:/Development/Unity/IntSys02-GeneticAlgoritham-Pathfinding/IntSys02-GeneticAlgoritham-Pathfinding/Genetic algorithm pathfinding/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
