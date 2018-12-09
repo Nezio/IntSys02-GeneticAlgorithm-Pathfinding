@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     private List<GameObject> population = new List<GameObject>();
     private Transform spawnPoint;
+    private int genCount = 1;
 
     private void Start()
     {
@@ -25,11 +27,18 @@ public class GameManager : MonoBehaviour
             population.Add(Instantiate(IndividualPrefab, spawnPoint.position, spawnPoint.rotation));
         }
 
+        UpdateGenCountText();
+
         StartSimulation();
 
         // wait for simulation to finish
         StartCoroutine(WaitForSimulation());
 
+    }
+
+    private void UpdateGenCountText()
+    {
+        GameObject.FindGameObjectWithTag("genCount").GetComponent<Text>().text = "Generation: " + genCount + "/" + Settings.generations;
     }
 
     private void StartSimulation()
@@ -70,6 +79,9 @@ public class GameManager : MonoBehaviour
         iterations--;
         if (iterations > 0)
         { // run GA and start simulation with new generation
+            genCount++;
+            UpdateGenCountText();
+
             List<GameObject> newPopulation = GeneticAlgorithm(population);
 
             // debug
@@ -87,6 +99,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log("new_" + i + " : " + newTurns);
             }*/
 
+            // update population
             DestroyOldPopulation(population);
             population = newPopulation;
 
