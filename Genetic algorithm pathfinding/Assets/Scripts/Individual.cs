@@ -6,8 +6,8 @@ public class Individual : MonoBehaviour
 {
     public float thrust;
     public float maxSpeed;
+    public int steps;
     public float stepLength = 1;    // how long to move forward before choosing a new angle
-    public int maxTurns;
 
     [HideInInspector]
     public bool isDone = false;     // true when done with simulation
@@ -26,11 +26,16 @@ public class Individual : MonoBehaviour
 
     private void Awake()
     {
+        // initialize settings
+        steps = Settings.steps;
+        stepLength = Settings.stepLength;
+
         rb = GetComponent<Rigidbody2D>();
-        turnAngles.AddRange(new float[] { 0, 45, 90, 135, 180, 225, 270, 315 });
+
+        //turnAngles.AddRange(new float[] { 0, 45, 90, 135, 180, 225, 270, 315 });    // DEPRICATED
 
         // sharp turns
-        for (int i = 0; i < maxTurns; i++)
+        for (int i = 0; i < steps; i++)
         {
             //turns.Add(turnAngles[Random.Range(0, turnAngles.Count)]);
             turns.Add(Random.Range(0, 360));
@@ -46,9 +51,8 @@ public class Individual : MonoBehaviour
     }
 
     private void Start()
-    {        
-        
-        
+    {
+
     }
 
     private void FixedUpdate()

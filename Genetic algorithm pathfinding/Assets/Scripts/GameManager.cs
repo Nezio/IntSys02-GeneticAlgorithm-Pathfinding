@@ -27,7 +27,23 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        // initialize settings
+        generations = Settings.generations;
+        populationSize = Settings.populationSize;
+        mutatioProb = Settings.mutationProb;
+        timeScale = Settings.speed;
         Time.timeScale = timeScale;
+
+        // load level
+        GameObject levels = GameObject.FindGameObjectWithTag("Levels");
+        foreach(Transform level in levels.transform)
+        {
+            level.gameObject.SetActive(false);
+        }
+        levels.transform.GetChild(Settings.level).gameObject.SetActive(true);
+        
+        //Debug.Log(GameObject.FindGameObjectWithTag("Levels").transform.GetChild(0));
+
 
         // generate initial population
         spawnPoint = GameObject.FindGameObjectWithTag("spawnPoint").transform;
@@ -88,6 +104,7 @@ public class GameManager : MonoBehaviour
         generations--;
         if (generations > 0)
         { // run GA and start simulation with new generation
+            // generation counter text
             genCount++;
             UpdateGenCountText();
 
@@ -279,8 +296,11 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < c.turns.Count; i++)
         {
+            //if (mutatioProb > Random.value)       // DEPRICATED?
+            //    c.turns[i] = c.turnAngles[Random.Range(0, c.turnAngles.Count)];
+
             if (mutatioProb > Random.value)
-                c.turns[i] = c.turnAngles[Random.Range(0, c.turnAngles.Count)];
+                c.turns[i] = Random.Range(0, 360);
         }
         
     }

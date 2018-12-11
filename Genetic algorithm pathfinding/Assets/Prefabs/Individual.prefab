@@ -104,8 +104,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thrust: 3
   maxSpeed: 3
+  steps: 15
   stepLength: 1
-  maxTurns: 14
   isDone: 0
   normalizedFitness: 0
   turns: []

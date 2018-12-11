@@ -8,6 +8,7 @@ TagManager:
   - Individual
   - endPoint
   - genCount
+  - Levels
   layers:
   - Default
   - TransparentFX
