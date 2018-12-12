@@ -9,6 +9,7 @@ TagManager:
   - endPoint
   - genCount
   - Levels
+  - Wall
   layers:
   - Default
   - TransparentFX

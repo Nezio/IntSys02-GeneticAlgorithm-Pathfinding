@@ -28,9 +28,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        
-        
-
         // initialize settings
         generations = Settings.generations;
         populationSize = Settings.populationSize;
@@ -72,13 +69,13 @@ public class GameManager : MonoBehaviour
     private void StartSimulation()
     {
         // ignore individual to individual collision
-        foreach (GameObject individual in population)
+        /*foreach (GameObject individual in population)
         {
             foreach (GameObject individual2 in population)
             {
                 Physics2D.IgnoreCollision(individual2.GetComponent<Collider2D>(), individual.GetComponent<Collider2D>());
             }
-        }
+        }*/
 
         for (int i = 0; i < population.Count; i++)
         {
@@ -161,6 +158,8 @@ public class GameManager : MonoBehaviour
                         child.GetComponent<Individual>().turns[j] = population[i].GetComponent<Individual>().turns[j];
                 }
 
+                child.GetComponent<Individual>().normalizedFitness = population[i].GetComponent<Individual>().normalizedFitness;
+
                 newPopulation.Add(child);
             }
             DestroyOldPopulation(population);
@@ -209,6 +208,7 @@ public class GameManager : MonoBehaviour
 
     private void NormalizeFitness()
     { // normalize to range 0 - 100
+
         List<float> fitnessData = new List<float>();
         List<float> normalizedFitnessData = new List<float>();
 
@@ -221,7 +221,10 @@ public class GameManager : MonoBehaviour
         // normalize fitness data and save to new list
         foreach(float f in fitnessData)
         {
-            normalizedFitnessData.Add(1 - ((f - Tools.ListMin(fitnessData)) / (Tools.ListMax(fitnessData) - Tools.ListMin(fitnessData))));
+            if (Tools.ListMax(fitnessData) == Tools.ListMin(fitnessData))
+                normalizedFitnessData.Add(1);
+            else
+                normalizedFitnessData.Add(1 - ((f - Tools.ListMin(fitnessData)) / (Tools.ListMax(fitnessData) - Tools.ListMin(fitnessData))));
         }
 
         // debug

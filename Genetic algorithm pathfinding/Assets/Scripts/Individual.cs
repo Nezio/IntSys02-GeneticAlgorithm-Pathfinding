@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Individual : MonoBehaviour
 {
+    public float speed;
+    public float currentSpeed = 0;
+
     public float thrust;
     public float maxSpeed;
     public int steps;
@@ -55,7 +58,12 @@ public class Individual : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
+    private void Update()
+    {
+        gameObject.transform.Translate(Vector3.up * Time.deltaTime * currentSpeed);
+    }
+
+    /*private void FixedUpdate()
     {
         rb.AddForce(transform.up * currentThrust);
         
@@ -63,17 +71,18 @@ public class Individual : MonoBehaviour
         {
             rb.velocity = rb.velocity.normalized * maxSpeed;
         }
-    }
+    }*/
 
     public IEnumerator RunTimer()
     {
         yield return new WaitForSeconds(0.25f);         // wait a bit
-        currentThrust = thrust;                         // start moving
+        currentSpeed = speed;                           // start moving
         StartCoroutine(MeasureTime());                  // measure time to finish (used to improve fitness)
         List<float> tmpTurns = new List<float>(turns);  // copy turns data
         while(tmpTurns.Count > 0)
         {
-            rb.MoveRotation(tmpTurns[0]);
+            //rb.MoveRotation(tmpTurns[0]);
+            gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, tmpTurns[0]));
             tmpTurns.RemoveAt(0);
 
             // measure best fitness
@@ -84,7 +93,7 @@ public class Individual : MonoBehaviour
             yield return new WaitForSeconds(stepLength);
         }
 
-        currentThrust = 0;
+        currentSpeed = 0;
         isDone = true;
 
         fitness = CalculateFitness();
@@ -95,7 +104,7 @@ public class Individual : MonoBehaviour
 
     private IEnumerator MeasureTime()
     {
-        while (currentThrust != 0)
+        while (currentSpeed != 0)
         {
             timeToFinish += 0.1f;
             yield return new WaitForSeconds(0.1f);
@@ -118,7 +127,7 @@ public class Individual : MonoBehaviour
         // freeze on collision with end point
         if (collision.gameObject.tag == "endPoint")
         {
-            currentThrust = 0;
+            currentSpeed = 0;
         }
     }
 
