@@ -104,14 +104,14 @@ public class Individual : MonoBehaviour
         yield return 0;
     }
     
-    private void OnCollisionEnter2D(Collision2D collision)
+    /*private void OnCollisionEnter2D(Collision2D collision)
     {
         // ignore collision with other individuals
         if (collision.gameObject.tag == "Individual")
         {
             Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), collision.collider);
         }
-    }
+    }*/
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

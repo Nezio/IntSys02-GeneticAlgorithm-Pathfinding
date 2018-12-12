@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -27,6 +28,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        
+        
+
         // initialize settings
         generations = Settings.generations;
         populationSize = Settings.populationSize;
@@ -58,7 +62,6 @@ public class GameManager : MonoBehaviour
 
         // wait for simulation to finish
         StartCoroutine(WaitForSimulation());
-
     }
 
     private void UpdateGenCountText()
@@ -68,6 +71,15 @@ public class GameManager : MonoBehaviour
 
     private void StartSimulation()
     {
+        // ignore individual to individual collision
+        foreach (GameObject individual in population)
+        {
+            foreach (GameObject individual2 in population)
+            {
+                Physics2D.IgnoreCollision(individual2.GetComponent<Collider2D>(), individual.GetComponent<Collider2D>());
+            }
+        }
+
         for (int i = 0; i < population.Count; i++)
         {
             StartCoroutine(population[i].GetComponent<Individual>().RunTimer());
@@ -99,6 +111,7 @@ public class GameManager : MonoBehaviour
 
     private void RunGA()
     {
+
         NormalizeFitness();
         
         generations--;
@@ -134,32 +147,43 @@ public class GameManager : MonoBehaviour
             StartCoroutine(WaitForSimulation());
         }
         else
-        { // display solution     
+        { // display solution
+
+            // move population to spawn
+            List<GameObject> newPopulation = new List<GameObject>();
+            for (int i = 0; i < population.Count; i++)
+            {
+                GameObject child = Instantiate(IndividualPrefab, spawnPoint.position, spawnPoint.rotation);
+
+                int numTurns = child.GetComponent<Individual>().turns.Count;
+                for (int j = 0; j < numTurns; j++)
+                {
+                        child.GetComponent<Individual>().turns[j] = population[i].GetComponent<Individual>().turns[j];
+                }
+
+                newPopulation.Add(child);
+            }
+            DestroyOldPopulation(population);
+            population = newPopulation;
+
             // find best solution (individual)
             int bestIndividualIndex = 0;
-            for(int i = 0; i < population.Count; i++)
+            for (int i = 0; i < population.Count; i++)
             {
                 if (population[i].GetComponent<Individual>().normalizedFitness > population[bestIndividualIndex].GetComponent<Individual>().normalizedFitness)
                     bestIndividualIndex = i;
             }
-
-            // move population to spawn
-            foreach (GameObject individual in population)
-            {
-                individual.transform.position = spawnPoint.position;
-                individual.transform.rotation = spawnPoint.rotation;
-                individual.GetComponent<Individual>().isDone = false;
-            }
-
             GameObject bestIndividual = population[bestIndividualIndex];
-            population.Clear();
-            population.Add(bestIndividual);
 
-            //Time.timeScale = 1;     // revert timescale to normal
+            // visually hide all but the best individual
+            for (int i = 0; i < population.Count; i++)
+            {
+                if (i != bestIndividualIndex)
+                    population[i].GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+            }
 
             // display it in simulation
             StartSimulation();
-
         }
     }
     
