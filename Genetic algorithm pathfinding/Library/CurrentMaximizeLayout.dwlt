@@ -20,10 +20,10 @@ MonoBehaviour:
     y: 30
     width: 1440
     height: 767
-  m_MinSize: {x: 679, y: 492}
-  m_MaxSize: {x: 14002, y: 14042}
+  m_MinSize: {x: 683, y: 471}
+  m_MaxSize: {x: 14002, y: 14021}
   vertical: 0
-  controlID: 4451
+  controlID: 2632
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 216
-    y: 92
+    y: 19
     width: 929
     height: 419
   m_PersistentViewDataDictionary: {fileID: 0}
@@ -123,10 +123,10 @@ MonoBehaviour:
     y: 0
     width: 1147
     height: 767
-  m_MinSize: {x: 404, y: 492}
-  m_MaxSize: {x: 10002, y: 14042}
+  m_MinSize: {x: 406, y: 471}
+  m_MaxSize: {x: 10000, y: 14021}
   vertical: 1
-  controlID: 4452
+  controlID: 2633
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -147,10 +147,10 @@ MonoBehaviour:
     y: 0
     width: 1147
     height: 440
-  m_MinSize: {x: 404, y: 221}
-  m_MaxSize: {x: 8004, y: 4021}
+  m_MinSize: {x: 406, y: 221}
+  m_MaxSize: {x: 8006, y: 4021}
   vertical: 0
-  controlID: 4453
+  controlID: 2634
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -169,8 +169,8 @@ MonoBehaviour:
     y: 0
     width: 214
     height: 440
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 6}
   m_Panes:
   - {fileID: 6}
@@ -203,9 +203,9 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 7c2b0000
+    m_SelectedIDs: 32260000
     m_LastClickedID: 0
-    m_ExpandedIDs: 82aef8ff5ac0f8ff24eff8ff3265f9ffc833faffac2ffeff8ef1ffffd2fbffffe6fbffff00000000082d00000c2d0000d8a80000
+    m_ExpandedIDs: 5cf6ffffe6fbffff00000000342f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -223,7 +223,8 @@ MonoBehaviour:
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 0}
     m_SearchString: 
-  m_ExpandedScenes: []
+  m_ExpandedScenes:
+  - MenuScene
   m_CurrenRootInstanceID: 0
   m_LockTracker:
     m_IsLocked: 0
@@ -285,9 +286,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -1.8096125, y: 0.518357, z: -0.033203125}
+    m_Target: {x: -0.7846209, y: 0.14278266, z: -0.01953125}
     speed: 2
-    m_Value: {x: -1.8096125, y: 0.518357, z: -0.033203125}
+    m_Value: {x: -0.7846209, y: 0.14278266, z: -0.01953125}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -319,9 +320,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 13.477622
+    m_Target: 12.146877
     speed: 2
-    m_Value: 13.477622
+    m_Value: 12.146877
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -397,11 +398,11 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs
+    - Assets/Scripts
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Prefabs
+  - Assets/Scripts
   m_LastFoldersGridSize: 16
   m_LastProjectPath: D:\Development\Unity\IntSys02-GeneticAlgoritham-Pathfinding\IntSys02-GeneticAlgoritham-Pathfinding\Genetic
     algorithm pathfinding
@@ -409,8 +410,8 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: d22a0000
-    m_LastClickedID: 10962
+    m_SelectedIDs: 4a2a0000
+    m_LastClickedID: 10826
     m_ExpandedIDs: 00000000ee290000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -464,9 +465,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 7c2b0000
-    m_LastClickedInstanceID: 11132
-    m_HadKeyboardFocusLastEvent: 1
+    m_SelectedInstanceIDs: 32260000
+    m_LastClickedInstanceID: 9778
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: 842e00007c2b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -547,7 +548,7 @@ MonoBehaviour:
   m_AnimEditor: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 11526
+  m_LastSelectedObjectID: 12110
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52

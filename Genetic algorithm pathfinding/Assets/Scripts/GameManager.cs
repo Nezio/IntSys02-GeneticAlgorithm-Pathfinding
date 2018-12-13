@@ -304,6 +304,8 @@ public class GameManager : MonoBehaviour
 
         int numTurns = child.GetComponent<Individual>().turns.Count;    // how many turns each individual performs during its lifespan
         int padding = (int)Mathf.Floor(numTurns * 0.2f);    // used so splitIndex isn't too close to boundaries (always take from both parents)
+        padding = 0;    // comment out to enable padding
+
         int splitIndex = Random.Range(0+padding, numTurns-padding);
 
         for(int i = 0; i < numTurns; i++)
