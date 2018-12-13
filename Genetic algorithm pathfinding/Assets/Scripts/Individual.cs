@@ -5,10 +5,6 @@ using UnityEngine;
 public class Individual : MonoBehaviour
 {
     public float speed;
-    
-
-    public float thrust;
-    public float maxSpeed;
     public int steps;
     public float stepLength = 1;    // how long to move forward before choosing a new angle
 
@@ -17,29 +13,20 @@ public class Individual : MonoBehaviour
     [HideInInspector]
     public float normalizedFitness;
     [HideInInspector]
-    public List<float> turns = new List<float>();
-    [HideInInspector]
-    public List<float> turnAngles = new List<float>();     // possible turn angles
+    public List<float> turns = new List<float>();    
     [HideInInspector]
     public float currentSpeed = 0;
     [HideInInspector]
     public float collisionSpeedModifier = 1;    // 0 if collision is detected, else 1
 
-    private float currentThrust = 0;
     private float fitness;
     private float timeToFinish = 0;
-
-    private Rigidbody2D rb;
 
     private void Awake()
     {
         // initialize settings
         steps = Settings.steps;
         stepLength = Settings.stepLength;
-
-        rb = GetComponent<Rigidbody2D>();
-
-        //turnAngles.AddRange(new float[] { 0, 45, 90, 135, 180, 225, 270, 315 });    // DEPRICATED
 
         // sharp turns
         for (int i = 0; i < steps; i++)
@@ -49,33 +36,18 @@ public class Individual : MonoBehaviour
         }
         
         // smooth turns
-        //turns.Add(Random.Range(0, 360));
-        //for (int i = 0; i < maxTurns - 1; i++)
-        //{
-        //    //turns.Add(turnAngles[Random.Range(0, turnAngles.Count)]);
-        //    turns.Add(turns[0] + Random.Range(-5, +5));
-        //}
+        /*turns.Add(Random.Range(0, 360));
+        for (int i = 0; i < maxTurns - 1; i++)
+        {
+            //turns.Add(turnAngles[Random.Range(0, turnAngles.Count)]);
+            turns.Add(turns[0] + Random.Range(-5, +5));
+        }*/
     }
-
-    private void Start()
-    {
-
-    }
-
+    
     private void Update()
     {
         gameObject.transform.Translate(Vector3.up * Time.deltaTime * currentSpeed * collisionSpeedModifier);
     }
-
-    /*private void FixedUpdate()
-    {
-        rb.AddForce(transform.up * currentThrust);
-        
-        if (rb.velocity.magnitude > maxSpeed)
-        {
-            rb.velocity = rb.velocity.normalized * maxSpeed;
-        }
-    }*/
 
     public IEnumerator RunTimer()
     {
@@ -83,11 +55,12 @@ public class Individual : MonoBehaviour
         currentSpeed = speed;                           // start moving
         StartCoroutine(MeasureTime());                  // measure time to finish (used to improve fitness)
         List<float> tmpTurns = new List<float>(turns);  // copy turns data
-        while(tmpTurns.Count > 0)
+
+        while (tmpTurns.Count > 0)
         {
-            //rb.MoveRotation(tmpTurns[0]);
-            gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, tmpTurns[0]));
-            tmpTurns.RemoveAt(0);
+            gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, tmpTurns[0]));   // rotate to new angle
+
+            tmpTurns.RemoveAt(0);   // remove angle that was just used up
 
             // measure best fitness
             float newFitness = CalculateFitness();
@@ -95,10 +68,10 @@ public class Individual : MonoBehaviour
                 fitness = newFitness;
 
             yield return new WaitForSeconds(stepLength);
-        }
+        }   // all movement done
 
-        currentSpeed = 0;
-        isDone = true;
+        currentSpeed = 0;   // freeze individual
+        isDone = true;      // individual is done with movement in this generation
 
         fitness = CalculateFitness();
         fitness += timeToFinish;        // improve final fitness with time taken to finish
@@ -107,7 +80,7 @@ public class Individual : MonoBehaviour
     }
 
     private IEnumerator MeasureTime()
-    {
+    { // measure time to finish (used to improve fitness)
         while (!isDone)
         {
             timeToFinish += 0.1f;
@@ -117,15 +90,6 @@ public class Individual : MonoBehaviour
         yield return 0;
     }
     
-    /*private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // ignore collision with other individuals
-        if (collision.gameObject.tag == "Individual")
-        {
-            Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), collision.collider);
-        }
-    }*/
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // freeze on collision with end point

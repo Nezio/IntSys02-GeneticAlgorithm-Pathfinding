@@ -44,8 +44,7 @@ public class UIController : MonoBehaviour
         Settings.stepLength = float.Parse(stepLength.GetComponent<InputField>().text);
         Settings.level = level.GetComponent<Dropdown>().value;
     }
-
-
+    
     public void Exit()
     {
         Application.Quit();
