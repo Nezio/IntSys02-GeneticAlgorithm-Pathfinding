@@ -54,8 +54,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1106297463642650}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.57, z: 0}
-  m_LocalScale: {x: 0.9281252, y: 0.05000134, z: 2}
+  m_LocalPosition: {x: -0, y: 0.697, z: 0}
+  m_LocalScale: {x: 1.252969, y: 0.07463169, z: 2}
   m_Children: []
   m_Father: {fileID: 4870158604846844}
   m_RootOrder: 0
@@ -150,7 +150,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  currentSpeed: 0
   thrust: 3
   maxSpeed: 3
   steps: 15
@@ -159,6 +158,8 @@ MonoBehaviour:
   normalizedFitness: 0
   turns: []
   turnAngles: []
+  currentSpeed: 0
+  collisionSpeedModifier: 1
 --- !u!212 &212254668131638558
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Individual : MonoBehaviour
 {
     public float speed;
-    public float currentSpeed = 0;
+    
 
     public float thrust;
     public float maxSpeed;
@@ -20,6 +20,10 @@ public class Individual : MonoBehaviour
     public List<float> turns = new List<float>();
     [HideInInspector]
     public List<float> turnAngles = new List<float>();     // possible turn angles
+    [HideInInspector]
+    public float currentSpeed = 0;
+    [HideInInspector]
+    public float collisionSpeedModifier = 1;    // 0 if collision is detected, else 1
 
     private float currentThrust = 0;
     private float fitness;
@@ -60,7 +64,7 @@ public class Individual : MonoBehaviour
 
     private void Update()
     {
-        gameObject.transform.Translate(Vector3.up * Time.deltaTime * currentSpeed);
+        gameObject.transform.Translate(Vector3.up * Time.deltaTime * currentSpeed * collisionSpeedModifier);
     }
 
     /*private void FixedUpdate()
@@ -104,10 +108,10 @@ public class Individual : MonoBehaviour
 
     private IEnumerator MeasureTime()
     {
-        while (currentSpeed != 0)
+        while (!isDone)
         {
             timeToFinish += 0.1f;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.01f);
         }
 
         yield return 0;
